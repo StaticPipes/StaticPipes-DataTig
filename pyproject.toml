@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools"]
+
+[project]
+name = "staticpipes-datatig"
+description = "StaticPipes and DataTig"
+readme = "README.md"
+version = "0.0.0"
+requires-python = ">=3.9"
+dependencies = ["datatig","staticpipes"]
+
+[project.optional-dependencies]
+staticpipesdev = ["pytest", "black", "isort", "mypy", "flake8", "sphinx"]
+
+[tool.isort]
+profile = "black"
+
+[[tool.mypy.overrides]]
+module = ["staticpipes.*","datatig.*"]
+ignore_missing_imports = true
+follow_imports = "skip"
+
