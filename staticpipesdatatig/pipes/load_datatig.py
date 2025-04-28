@@ -14,18 +14,24 @@ from staticpipesdatatig.datatig_collection import DataTigCollection
 
 class PipeLoadDatatig(BasePipe):
 
-    def __init__(self):
-        pass
+    def __init__(self, directory=""):
+        self.directory = directory
 
     def start_prepare(self, current_info: CurrentInfo) -> None:
 
+        absolute_directory = (
+            os.path.join(self.source_directory.dir, self.directory)
+            if self.directory and self.directory != "/"
+            else self.source_directory.dir
+        )
+
         # Repository Access
         repository_access = datatig.repository_access.RepositoryAccessLocalFiles(
-            self.source_directory.dir
+            absolute_directory
         )
 
         # Config
-        config = SiteConfigModel(self.source_directory.dir)
+        config = SiteConfigModel(absolute_directory)
         config.load_from_file(repository_access)
 
         # SQLite
